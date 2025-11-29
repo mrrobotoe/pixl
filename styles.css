@@ -10,6 +10,10 @@
 }
 
 @layer base {
+    *:focus {
+        outline: 2px solid var(--color-pixl);
+    }
+
     @font-face {
         font-family: 'Departure Mono';
         src: url('/fonts/DepartureMono-Regular.woff2') format('woff2'), url('/fonts/DepartureMono-Regular.woff') format('woff');
