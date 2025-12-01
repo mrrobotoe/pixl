@@ -97,6 +97,7 @@
         <!-- Posts feed -->
         <ol class="border-pixl-light/10 border-t pt-4">
             <!-- Feed item -->
+            @include('partials.feed-item')
             <li class="flex items-start gap-4 not-first:pt-2.5">
                 <a href="/profile" class="shrink-0">
                     <img
