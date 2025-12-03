@@ -5,13 +5,13 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="dark" name="color-scheme" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>{{ $title }}</title>
+    @routes
+    @inertiaHead
+    <title>PIXL</title>
 </head>
 <body
-    class="bg-pixl-dark text-pixl-light flex gap-8 px-4 sm:h-dvh sm:overflow-clip xl:gap-16"
+    class=""
 >
-<x-navigation />
- {{ $slot }}
-<x-aside />
+@inertia
 </body>
 </html>

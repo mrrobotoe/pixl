@@ -1,0 +1,111 @@
+<template>
+    <!-- Reply item -->
+    <li class="group/reply relative flex items-start gap-4 pt-4">
+        <!-- Line through -->
+        <div
+            aria-hidden="true"
+            class="bg-pixl-light/10 absolute top-0 left-5 h-full w-px group-last/reply:h-4"
+        ></div>
+
+        <a :href="route('profiles.show', post.profile)" class="isolate shrink-0">
+            <img
+                :src="post.profile.avatar_url"
+                :alt="post.profile.display_name"
+                class="size-10 object-cover"
+            />
+        </a>
+        <div class="border-pixl-light/10 grow border-b pt-1.5 pb-5">
+            <!-- User metadata -->
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex items-center gap-2.5">
+                    <p>
+                        <a class="hover:underline" :href="route('profiles.show', post.profile)">{{ post.profile.display_name }}</a>
+                    </p>
+                    <p class="text-pixl-light/60 text-xs">
+                        <a :href="route('posts.show', [post.profile, post])">{{ post.created_at }}</a>
+                    </p>
+                    <p class="text-pixl-light/60 text-xs">
+                        <a
+                            :href="route('profiles.show', post.profile)"
+                            class="hover:text-pixl-light/60 hover:underline"
+                        >
+                            {{ post.profile.handle }}
+                        </a>
+                    </p>
+                </div>
+                <button
+                    class="group flex gap-[3px] py-2"
+                    aria-label="Post options"
+                >
+                    <span
+                      class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"
+                    ></span>
+                    <span
+                        class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"
+                    ></span>
+                    <span
+                        class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"
+                    ></span>
+                </button>
+            </div>
+
+            <!-- Post content -->
+            <div class="mt-4 flex flex-col gap-3 text-sm" v-html="post.content">
+            </div>
+
+            <!-- Action buttons -->
+            <div v-if="showEngagements" class="mt-6 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-8">
+                    <!-- Like button -->
+                    <LikeButton :active="post.has_liked" :count="post.likes_count" :id="post.id" />
+                    <!-- Comment button -->
+                    <ReplyButton :count="post.replies_count" :id="post.id" />
+                    <!-- Repost button -->
+                    <RepostButton :active="post.has_reposted" :count="post.reposts_count" :id="post.id" />
+                </div>
+                <div class="flex items-center gap-3">
+                    <!-- Save button -->
+                    <SaveButton :id="post.id" />
+                    <!-- Share button -->
+                    <ShareButton :id="post.id" />
+                </div>
+
+                <!-- Threaded replies could go here -->
+                <ol v-if="showReplies">
+                    <Reply v-for="reply in post.replies" :key="post.id" :post="reply" :show-engagements="showEngagements" :show-replies="showReplies" />
+                    <!-- More replies... -->
+                </ol>
+
+            </div>
+        </div>
+    </li>
+
+</template>
+<script setup lang="ts">
+import LikeButton from "./LikeButton.vue";
+import ReplyButton from "./ReplyButton.vue";
+import RepostButton from "./RepostButton.vue";
+import SaveButton from "./SaveButton.vue";
+import ShareButton from "./ShareButton.vue";
+
+defineProps<{
+    post: {
+        id: number;
+        content: string;
+        created_at: string;
+        likes_count: number;
+        replies_count: number;
+        reposts_count: number;
+        has_liked: boolean;
+        has_reposted: boolean;
+        profile: {
+            display_name: string;
+            handle: string;
+            avatar_url: string;
+        };
+        replies: Array<any>;
+    };
+    showEngagements: boolean;
+    showReplies: boolean;
+}>();
+</script>

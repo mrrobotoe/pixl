@@ -11,16 +11,17 @@ use App\Models\Profile;
 use App\Queries\PostThreadQuery;
 use App\Queries\TimelineQuery;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function index()
     {
         $profile = Auth::user()->profile;
 
         $posts = TimelineQuery::forViewer($profile)->get();
 
-        return view('posts.index', ['profile' => $profile, 'posts' => $posts]);
+        return Inertia::render('Posts/Index', ['profile' => $profile, 'posts' => $posts]);
     }
 
     public function show(Profile $profile, Post $post): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
