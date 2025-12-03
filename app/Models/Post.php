@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +23,7 @@ class Post extends Model
 
     public function isRepost(): bool
     {
-        return !is_null($this->repost_parent_id);
+        return ! is_null($this->repost_parent_id);
     }
 
     public function likes(): HasMany
@@ -49,10 +51,10 @@ class Post extends Model
         ]);
     }
 
-    public static function removeRepost(Profile $profile, Post $original_post): bool
+    public static function removeRepost(Profile $profile, Post $post): bool
     {
         return static::where('profile_id', $profile->id)
-            ->where('repost_parent_id', $original_post->id)
+            ->where('repost_parent_id', $post->id)
             ->delete() > 0;
     }
 
@@ -62,23 +64,23 @@ class Post extends Model
         return $this->hasMany(Post::class, 'parent_id');
     }
 
-    public static function reply(Profile $profile, Post $original_post, string $content): self
+    public static function reply(Profile $profile, Post $post, string $content): self
     {
         return static::create([
             'profile_id' => $profile->id,
             'content' => $content,
-            'parent_id' => $original_post->id,
+            'parent_id' => $post->id,
             'repost_parent_id' => null,
         ]);
     }
 
-    public static function repost(Profile $profile, Post $original_post, string $content = null): self
+    public static function repost(Profile $profile, Post $post, ?string $content = null): self
     {
         return static::firstOrCreate([
             'profile_id' => $profile->id,
             'content' => $content,
             'parent_id' => null,
-            'repost_parent_id' => $original_post->id,
+            'repost_parent_id' => $post->id,
         ]);
     }
 

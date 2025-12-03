@@ -66,11 +66,11 @@ test('quote repost', function () {
 
     $repost_profile = Profile::factory()->create();
 
-    $quote_repost = Post::repost($repost_profile, $original_post, $content);
+    $post = Post::repost($repost_profile, $original_post, $content);
 
-    expect($quote_repost->repostOf->is($original_post))->toBeTrue()
+    expect($post->repostOf->is($original_post))->toBeTrue()
         ->and($original_post->reposts)->toHaveCount(1)
-        ->and($quote_repost->content)->toBe($content);
+        ->and($post->content)->toBe($content);
 });
 
 test('prevent duplicate reposts', function () {
@@ -78,12 +78,12 @@ test('prevent duplicate reposts', function () {
 
     $repost_profile = Profile::factory()->create();
 
-    $first_repost = Post::repost($repost_profile, $original_post);
+    $post = Post::repost($repost_profile, $original_post);
 
     // Attempt to create a duplicate repost
     $second_repost = Post::repost($repost_profile, $original_post);
 
-    expect($first_repost->id)->toBe($second_repost->id)
+    expect($post->id)->toBe($second_repost->id)
         ->and($original_post->reposts)->toHaveCount(1);
 });
 

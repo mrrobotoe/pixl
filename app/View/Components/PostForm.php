@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components;
 
 use App\Models\Profile;
@@ -11,6 +13,7 @@ use Illuminate\View\Component;
 class PostForm extends Component
 {
     public Profile $profile;
+
     /**
      * Create a new component instance.
      */
