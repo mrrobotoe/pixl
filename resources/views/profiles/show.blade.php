@@ -1,7 +1,4 @@
 <x-layout title="PIXL - Profile">
-    <!-- Navigation -->
-    @include('partials.navigation', ['showPostButton' => true])
-
     <!-- Content -->
     <main class="-mx-4 flex grow flex-col gap-4 overflow-y-auto px-4 py-4">
         <a href="/feed" class="group flex items-baseline gap-1.5">
@@ -42,7 +39,4 @@
             <div class="h-20 bg-[url(/images/white-noise.gif)]"></div>
         </footer>
     </main>
-
-    <!-- Sidebar -->
-    @include('partials.aside')
 </x-layout>
