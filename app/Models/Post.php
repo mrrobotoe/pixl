@@ -19,6 +19,10 @@ class Post extends Model
         'repost_parent_id',
     ];
 
+    public function isRepost(): bool
+    {
+        return !is_null($this->repost_parent_id);
+    }
 
     public function likes(): HasMany
     {

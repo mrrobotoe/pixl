@@ -1,7 +1,7 @@
 <li class="flex items-start gap-4 not-first:pt-2.5">
-    <a href="/profile" class="shrink-0">
+    <a href="{{ route('profiles.show', $post->profile) }}" class="shrink-0">
         <img
-            src="{{ $item->profile->avatar }}"
+            src="{{ $post->profile->avatar_url }}"
             alt=""
             class="size-10 object-cover"
         />
@@ -12,15 +12,17 @@
             <div class="flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2.5">
                     <p>
-                        <a class="hover:underline" href="/profile">{{ $item->profile->displayName }}</a>
+                        <a class="hover:underline" href="{{ route('profiles.show', $post->profile) }}">{{ $post->profile->display_name }}</a>
                     </p>
-                    <p class="text-pixl-light/60 text-xs">3 hours ago</p>
+                    <p class="text-pixl-light/60 text-xs">
+                        <a href="{{ route('posts.show', [$post->profile, $post]) }}">{{ $post->created_at }}</a>
+                    </p>
                     <p class="text-pixl-light/60 text-xs">
                         <a
-                            href="/profile"
+                            href="{{ route('profiles.show', $post->profile) }}"
                             class="hover:text-pixl-light/60 hover:underline"
                         >
-                            {{ $item->profile->handle }}
+                            {{ $post->profile->handle }}
                         </a>
                     </p>
                 </div>
@@ -43,14 +45,31 @@
             <div
                 class="[&_a]:text-pixl mt-4 flex flex-col gap-3 text-sm [&_a]:hover:underline"
             >
-                {!! $item->content !!}
+                {!! $post->content !!}
+
+                @if($post->isRepost() && $post->content != null)
+                    <ul>
+                        <x-post
+                            :post="$post->repostOf"
+                            :show-engagements="false"
+                        />
+                    </ul>
+                @endif
             </div>
+
+            @if ($showEngagements)
             <!-- Action buttons -->
             <div class="mt-6 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-8">
                     <!-- Like button -->
                     <div class="flex items-center gap-1">
-                        <button aria-label="like" class="hover:text-pixl/80">
+                        <button
+                            aria-label="like"
+                            @class([
+                              'text-pixl/60 hover:text-pixl' => $post->has_liked,
+                            ])
+                            class="hover:text-pixl/80"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -79,7 +98,7 @@
                                 </defs>
                             </svg>
                         </button>
-                        <span class="text-sm">{{ $item->likeCount }}</span>
+                        <span class="text-sm">{{ $post->likes_count }}</span>
                     </div>
 
                     <!-- Comment button -->
@@ -113,14 +132,20 @@
                                 </defs>
                             </svg>
                         </button>
-                        <span class="text-sm">{{ $item->replyCount }}</span>
+                        <span class="text-sm">{{ $post->replies_count }}</span>
                     </div>
 
                     <!-- Repost button -->
                     <div class="flex items-center gap-1">
-                        <button aria-label="repost" class="hover:text-pixl/80">
+                        <button
+                            aria-label="repost"
+                            @class([
+                                'text-pixl/60 hover:text-pixl' => $post->has_reposted,
+                            ])
+                            class="hover:text-pixl/80"
+                        >
                             <svg
-                                xmlns=" http://www.w3.org/2000/svg"
+                                xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 class="h-[17px]"
                                 viewBox="0 0 20 17"
@@ -191,7 +216,7 @@
                                 />
                             </svg>
                         </button>
-                        <span class="text-sm">{{ $item->repostCount }}</span>
+                        <span class="text-sm">{{ $post->reposts_count }}</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -273,19 +298,23 @@
                     </div>
                 </div>
             </div>
+            @endif
 
-            <!-- Reply form -->
-
+            <x-reply-form :post="$post" />
         </div>
 
-        <!-- Threaded replies could go here -->
-        <ol>
-            @foreach($item->replies as $reply)
-                @include('partials.feed-item-reply', [
-                    'item' => $reply
-                ])
-            @endforeach
-            <!-- More replies... -->
-        </ol>
+        @if ($showReplies)
+            <!-- Threaded replies could go here -->
+            <ol>
+                @foreach($post->replies as $reply)
+                    <x-reply
+                        :post="$reply"
+                        :show-engagements="$showEngagements"
+                        :show-replies="$showReplies"
+                    />
+                @endforeach
+                <!-- More replies... -->
+            </ol>
+        @endif
     </div>
 </li>
