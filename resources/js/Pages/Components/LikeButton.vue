@@ -4,12 +4,14 @@
             <button
                 aria-label="like"
                 :class="post.has_liked ? 'hover:text-pixl text-pixl' : 'hover:text-pixl'"
+                data-test="like-post-button"
             >
                 <HeartIcon />
             </button>
             <span
                 :class="post.has_liked ? 'hover:text-pixl text-pixl' : 'hover:text-pixl'"
                 class="text-sm"
+                data-test="like-post-count"
             >
                 {{ post.likes_count }}
             </span>

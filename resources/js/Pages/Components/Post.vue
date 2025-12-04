@@ -1,5 +1,5 @@
 <template>
-    <li class="flex items-start gap-4 not-first:pt-2.5">
+    <li class="flex items-start gap-4 not-first:pt-2.5" data-test="post-feed-item">
     <a :href="route('profiles.show', post.profile)" class="shrink-0">
         <img
             :src="post.profile.avatar_url"
@@ -16,7 +16,7 @@
                         <a class="hover:underline" :href="route('profiles.show', post.profile)">{{ post.profile.display_name }}</a>
                     </p>
                     <p class="text-pixl-light/60 text-xs">
-                        <a :href="route('posts.show', [post.profile, post])">{{ post.created_at }}</a>
+                        <a :href="route('posts.show', [post.profile, post])" data-test="visit-post-link">{{ post.created_at }}</a>
                     </p>
                     <p class="text-pixl-light/60 text-xs">
                         <a

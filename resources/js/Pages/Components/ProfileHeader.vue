@@ -27,6 +27,7 @@
                 as="button"
                 :href="route(profile.has_followed ? 'profiles.unfollow' : 'profiles.follow', profile)"
                 class="bg-pixl-dark/50 border-pixl/50 text-pixl hover:bg-pixl-dark/55 hover:border-pixl/55 active:bg-pixl-dark/75 active:border-pixl/75 border px-2 py-1 text-sm transition"
+                data-test="follow-profile-button"
             >
                 {{ profile.has_followed ? 'Unfollow' : 'Follow' }}
             </Link>
