@@ -9,44 +9,54 @@ use App\Models\Profile;
 use App\Queries\ProfilePageQuery;
 use App\Queries\ProfileWithRepliesQuery;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
-    public function show(Profile $profile): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function show(Profile $profile)
     {
         $profile->loadCount(['following', 'followers']);
+
+        $profile->has_followed = Auth::user()->profile->is_following($profile);
 
         $posts = ProfilePageQuery::for($profile, Auth::user()?->profile)->get();
 
         // For demonstration purposes, we'll return a simple view with the handle.
         // In a real application, you would fetch the profile data from the database.
-        return view('profiles.show', ['profile' => $profile, 'posts' => $posts]);
+
+        return Inertia::render('Profiles/Show', [
+            'profile' => $profile->toResource(),
+            'posts' => $posts->toResourceCollection(),
+        ]);
     }
 
-    public function replies(Profile $profile): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function replies(Profile $profile)
     {
         $profile->loadCount(['following', 'followers']);
 
         $posts = ProfileWithRepliesQuery::for($profile, Auth::user()?->profile)->get();
 
-        return view('profiles.replies', ['profile' => $profile, 'posts' => $posts]);
+        return Inertia::render('Profiles/Show', [
+            'profile' => $profile->toResource(),
+            'posts' => $posts->toResourceCollection(),
+        ]);
     }
 
     public function follow(Profile $profile)
     {
         $currentProfile = Auth::user()->profile;
 
-        $follow = Follow::createFollow($currentProfile, $profile);
+        Follow::createFollow($currentProfile, $profile);
 
-        return response()->json(['follow' => $follow]);
+        return back()->with('success', 'You are now following ' . $profile->handle);
     }
 
     public function unfollow(Profile $profile)
     {
         $currentProfile = Auth::user()->profile;
 
-        $success = Follow::removeFollow($currentProfile, $profile);
+        Follow::removeFollow($currentProfile, $profile);
 
-        return response()->json(['success' => $success]);
+        return back()->with('success', 'You are no longer following ' . $profile->handle);
     }
 }

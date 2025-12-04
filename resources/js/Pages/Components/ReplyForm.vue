@@ -1,40 +1,30 @@
-<script setup lang="ts">
-import ImageIcon from "./Icons/ImageIcon.vue";
-import VideIcon from "./Icons/VideIcon.vue";
-import { Form } from "@inertiajs/vue3";
-
-defineProps<{
-    profile: {
-        avatar_url: string;
-        display_name: string;
-        handle: string;
-    };
-}>();
-</script>
-
 <template>
-    <div class="border-pixl-light/10 mt-8 flex items-start gap-4 border-b pb-4">
-        <a href="{{ route('profiles.show', $profile) }}" class="shrink-0">
+    <div
+        class="bg-pixl-light/[3%] border-pixl-light/10 mt-8 flex items-start gap-4 border-t p-4"
+    >
+        <a :href="route('profiles.show', profile)" class="shrink-0">
             <img
                 :src="profile.avatar_url"
-                :alt="`Avatar for ${profile.display_name}`"
+                :alt="`Avatar of ${profile.display_name}`"
                 class="size-10 object-cover"
             />
         </a>
+
         <Form
             class="grow"
             method="POST"
-            :action="route('posts.store')"
+            :action="route('posts.reply', [post.profile, post])"
             reset-on-success
             #default="{ errors }"
+            @success="emit('success')"
         >
-            <label for="content" class="sr-only">Post body</label>
-
+            <label for="content" class="sr-only">Reply body</label>
             <textarea
                 class="w-full resize-none text-lg"
                 name="content"
                 id="content"
-                :placeholder="`What's up? ${profile.handle}?`"
+                :placeholder="`Reply to ${profile.display_name}'s post`"
+                rows="5"
             ></textarea>
             <div v-if="errors.content" v-text="errors.content" class="text-red-400 mb-2 text-sm"></div>
 
@@ -43,7 +33,6 @@ defineProps<{
                     <button type="button">
                         <ImageIcon />
                     </button>
-
                     <button type="button">
                         <VideIcon />
                     </button>
@@ -58,3 +47,24 @@ defineProps<{
         </Form>
     </div>
 </template>
+
+<script setup lang="ts">
+import { Form } from "@inertiajs/vue3";
+import ImageIcon from "./Icons/ImageIcon.vue";
+import VideIcon from "./Icons/VideIcon.vue";
+
+defineProps<{
+    profile: {
+        avatar_url: string
+        display_name: string
+    }
+    post: {
+        id: number;
+        profile: {
+            handle: string;
+        };
+    };
+}>();
+
+let emit = defineEmits(["success"]);
+</script>

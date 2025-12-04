@@ -1,0 +1,177 @@
+<template>
+    <div
+        class="bg-pixl-dark text-pixl-light relative flex h-dvh w-full flex-col md:block md:overflow-clip"
+    >
+    <!-- Background Image -->
+    <div class="fixed inset-0 overflow-clip">
+        <img
+            alt="Background Image"
+            class="absolute inset-y-0 left-[15%] h-full w-full mask-l-from-80% object-cover opacity-30"
+            src="/images/official-login-background.png"
+        />
+    </div>
+
+    <main
+        class="xs:max-w-5xl isolate mx-auto grid max-w-[1000px] flex-grow place-items-center px-8 max-md:pt-16 md:h-full"
+    >
+        <div
+            class="flex w-full flex-col items-center justify-between gap-8 md:flex-row md:gap-16"
+        >
+            <!-- Logo * word sa -->
+            <div>
+                <div class="flex items-baseline gap-3">
+                    <svg
+                        class="w-36"
+                        fill="none"
+                        viewBox="0 0 182 61"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M10.083 0H0v10.083h10.083V0Zm10.084 0H10.084v10.083h10.083V0Z"
+                            fill="#EEE"
+                        ></path>
+                        <path
+                            d="M30.25 0H20.165v10.083h10.083V0ZM10.083 10.083H0v10.084h10.083V10.083Zm30.25 0H30.25v10.084h10.083V10.083Zm-30.25 10.084H0V30.25h10.083V20.167Zm30.25 0H30.25V30.25h10.083V20.167ZM10.083 30.25H0v10.083h10.083V30.25Zm10.084 0H10.084v10.083h10.083V30.25Z"
+                            fill="#EEE"
+                        ></path>
+                        <path
+                            d="M30.25 30.25H20.165v10.083h10.083V30.25ZM10.083 40.333H0v10.084h10.083V40.333Zm0 10.084H0V60.5h10.083V50.417ZM60.5 0H50.415v10.083h10.083V0Zm10.083 0H60.5v10.083h10.083V0Zm10.084 0H70.584v10.083h10.083V0ZM70.583 10.083H60.5v10.084h10.083V10.083Zm0 10.084H60.5V30.25h10.083V20.167Zm0 10.083H60.5v10.083h10.083V30.25Zm0 10.083H60.5v10.084h10.083V40.333Zm0 10.084H60.5V60.5h10.083V50.417ZM60.5 50.416H50.415V60.5h10.083V50.416Zm20.167 0H70.584V60.5h10.083V50.416Z"
+                            fill="#EEE"
+                        ></path>
+                        <path
+                            d="M100.833 0H90.75v10.083h10.083V0Zm0 10.083H90.75v10.084h10.083V10.083ZM131.083 0H121v10.083h10.083V0Zm0 10.083H121v10.084h10.083V10.083Zm-30.25 30.25H90.75v10.084h10.083V40.333Zm0 10.084H90.75V60.5h10.083V50.417Zm30.25-10.084H121v10.084h10.083V40.333Zm0 10.084H121V60.5h10.083V50.417ZM110.917 30.25h-10.083v10.083h10.083V30.25Zm10.082-10.084h-10.083V30.25h10.083V20.166Z"
+                            fill="#ECA749"
+                        ></path>
+                        <path
+                            d="M110.917 20.166h-10.083V30.25h10.083V20.166Zm10.082 10.084h-10.083v10.083h10.083V30.25Z"
+                            fill="#ECA749"
+                        ></path>
+                        <path
+                            d="M151.249 0h-10.083v10.083h10.083V0Zm0 10.084h-10.083v10.083h10.083V10.083Z"
+                            fill="#EEE"
+                        ></path>
+                        <path
+                            d="M151.249 20.166h-10.083V30.25h10.083V20.166Zm0 10.084h-10.083v10.083h10.083V30.25Zm0 10.084h-10.083v10.083h10.083V40.333Z"
+                            fill="#EEE"
+                        ></path>
+                        <path
+                            d="M151.249 50.416h-10.083V60.5h10.083V50.416Zm10.084.001H151.25V60.5h10.083V50.417Zm10.084-.001h-10.083V60.5h10.083V50.416Z"
+                            fill="#EEE"
+                        ></path>
+                        <path
+                            d="M181.499 50.416h-10.083V60.5h10.083V50.416Z"
+                            fill="#EEE"
+                        ></path>
+                    </svg>
+                    <div
+                        aria-hidden="true"
+                        class="text-pixl relative hidden text-4xl uppercase md:block"
+                    >
+                        <!-- Top -->
+                        <div
+                            class="absolute bottom-full my-2 flex flex-col gap-2 opacity-20"
+                        >
+                            <div class="flex flex-col gap-2 opacity-50">
+                                <p>Coder</p>
+                                <p>Art</p>
+                                <p>Writer</p>
+                                <p>Media</p>
+                                <p>Designer</p>
+                                <p>Coder</p>
+                                <p>Designer</p>
+                                <p>Art</p>
+                                <p>Writer</p>
+                                <p>Coder</p>
+                                <p>Art</p>
+                                <p>Coder</p>
+                                <p>Art</p>
+                                <p>Writer</p>
+                            </div>
+                            <p>Media</p>
+                        </div>
+                        <!-- Anchor -->
+                        <p>Everyone</p>
+                        <!-- Bottom -->
+                        <div class="absolute my-2 flex flex-col gap-2 opacity-20">
+                            <p>Coder</p>
+                            <p>Art</p>
+                            <div class="flex flex-col gap-2 opacity-50">
+                                <p>Coder</p>
+                                <p>Art</p>
+                                <p>Writer</p>
+                                <p>Media</p>
+                                <p>Designer</p>
+                                <p>Coder</p>
+                                <p>Designer</p>
+                                <p>Art</p>
+                                <p>Writer</p>
+                                <p>Coder</p>
+                                <p>Art</p>
+                                <p>Coder</p>
+                                <p>Art</p>
+                                <p>Writer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="max-w-full pb-16 min-[360px]:w-72 sm:w-80">
+                <h1 class="text-pixl text-center text-2xl sm:text-3xl md:text-left">
+                    A place for the cool squares
+                </h1>
+                <div
+                    class="mt-8 flex flex-col gap-3 text-center sm:mt-12 md:mt-16 md:w-68"
+                >
+                    <a
+                        class="bg-pixl-dark/50 border-pixl/50 text-pixl hover:bg-pixl-dark/55 hover:border-pixl/55 active:bg-pixl-dark/75 active:border-pixl/75 border px-4 py-1.5 transition"
+                        href="/feed"
+                    >
+                        Sign in with Google
+                    </a>
+                    <a
+                        class="bg-pixl-dark/50 border-pixl/50 text-pixl hover:bg-pixl-dark/55 hover:border-pixl/55 active:bg-pixl-dark/75 active:border-pixl/75 border px-4 py-1.5 transition"
+                        href="/feed"
+                    >
+                        Sign in with Apple
+                    </a>
+                    <p>or</p>
+                    <a
+                        class="bg-pixl text-pixl-dark hover:bg-pixl/90 active:bg-pixl/95 border border-transparent px-4 py-1.5 transition"
+                        href="/feed"
+                    >
+                        Create an Account
+                    </a>
+                    <p class="mt-12 text-left text-sm sm:mt-16 md:mt-20">
+                        Already have an account?
+                    </p>
+                    <a
+                        class="bg-pixl text-pixl-dark hover:bg-pixl/90 active:bg-pixl/95 border border-transparent px-4 py-1.5 transition"
+                        :href="route('login')"
+                    >
+                        Sign in
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="relative pb-3 md:fixed md:inset-x-0 md:bottom-0">
+        <div
+            class="bg-pixl-darker/70 border-pixl-dark/50 flex h-16 w-full items-center justify-center border-t text-center backdrop-blur-md"
+        >
+            <p class="text-pixl text-sm">© 2024 PIXL. All rights reserved.</p>
+        </div>
+
+        <!-- White noise overlay -->
+        <div
+            class="absolute inset-x-0 bottom-0 h-4 bg-[url(/images/white-noise.gif)]"
+        ></div>
+        <!-- Pictogram -->
+    </footer>
+    </div>
+</template>
+<script setup lang="ts">
+import Layout from "./Layouts/layout.vue";
+</script>

@@ -57,11 +57,11 @@
             <div v-if="showEngagements" class="mt-6 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-8">
                     <!-- Like button -->
-                    <LikeButton :active="post.has_liked" :count="post.likes_count" :id="post.id" />
+                    <LikeButton :post="post" />
                     <!-- Comment button -->
-                    <ReplyButton :count="post.replies_count" :id="post.id" />
+                    <ReplyButton :post="post" @click="showReplyForm = !showReplyForm"/>
                     <!-- Repost button -->
-                    <RepostButton :active="post.has_reposted" :count="post.reposts_count" :id="post.id" />
+                    <RepostButton :post="post" />
                 </div>
                 <div class="flex items-center gap-3">
                     <!-- Save button -->

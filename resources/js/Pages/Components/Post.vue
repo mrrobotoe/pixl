@@ -27,28 +27,52 @@
                         </a>
                     </p>
                 </div>
-                <button
-                    class="group flex gap-[3px] py-2"
-                    aria-label="Post options"
-                >
-                          <span
-                              class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"
-                          ></span>
-                    <span
-                        class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"
-                    ></span>
-                    <span
-                        class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"
-                    ></span>
-                </button>
+
+                <Menu as="div" class="relative inline-block">
+                    <MenuButton class="group flex gap-[3px] py-2" aria-label="Post options"
+                    >
+                        <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
+                        <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
+                        <span class="bg-pixl-light/40 group-hover:bg-pixl-light/60 size-1"></span>
+                    </MenuButton>
+
+                    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform scale-100" leave-to-class="transform opacity-0 scale-95">
+                        <MenuItems class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-pixl outline-1 -outline-offset-1 outline-white/10">
+<!--                                <MenuItem v-slot="{ active }">-->
+<!--                                    <a href="#" :class="[active ? 'bg-pixl-light/30 text-pixl-dark outline-hidden' : 'text-pixl-dark', 'block px-4 py-2 text-sm']">Account settings</a>-->
+<!--                                </MenuItem>-->
+<!--                                <MenuItem v-slot="{ active }">-->
+<!--                                    <a href="#" :class="[active ? 'bg-pixl-light/30 text-pixl-dark outline-hidden' : 'text-pixl-dark', 'block px-4 py-2 text-sm']">Support</a>-->
+<!--                                </MenuItem>-->
+<!--                                <MenuItem v-slot="{ active }">-->
+<!--                                    <a href="#" :class="[active ? 'bg-pixl-light/30 text-pixl-dark outline-hidden' : 'text-pixl-dark', 'block px-4 py-2 text-sm']">License</a>-->
+<!--                                </MenuItem>-->
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <Link :href="route('posts.show', [post.profile, post])"  :class="[active ? 'bg-pixl-light/30 outline-hidden' : '', 'block w-full px-4 py-2 text-left text-sm text-pixl-dark']">View Post</Link>
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }" v-if="post.can.update">
+                                    <Link
+                                        :href="route('posts.destroy', [post.profile, post])"
+                                        :class="[active ? 'bg-pixl-light/30 outline-hidden' : '', 'block w-full px-4 py-2 text-left text-sm text-pixl-dark']"
+                                        method="post"
+                                        as="button"
+                                    >Delete</Link>
+                                </MenuItem>
+                            </div>
+                        </MenuItems>
+                    </transition>
+                </Menu>
+
             </div>
+
             <!-- Post content -->
             <div
                 class="[&_a]:text-pixl mt-4 flex flex-col gap-3 text-sm [&_a]:hover:underline"
             >
                 <div v-html="post.content"></div>
 
-                <ul v-if="!!post.repost_of && !!post.content">
+                <ul v-if="!!post.repost_of">
                     <Post :post="post.repost_of" :show-engagements="false"/>
                 </ul>
             </div>
@@ -56,9 +80,11 @@
             <!-- Action buttons -->
             <div v-if="showEngagements" class="mt-6 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-8">
-                    <LikeButton :active="post.has_liked" :count="post.likes_count" :id="post.id" />
-                    <ReplyButton :count="post.replies_count" :id="post.id" />
-                    <RepostButton :active="post.has_reposted" :count="post.reposts_count" :id="post.id" />
+                    <LikeButton :post="post" />
+
+                    <ReplyButton :post="post" @click="showReplyForm = !showReplyForm"/>
+
+                    <RepostButton :post="post" />
                 </div>
                 <div class="flex items-center gap-3">
                     <SaveButton :id="post.id" />
@@ -66,7 +92,7 @@
                 </div>
             </div>
 
-<!--            <x-reply-form :post="$post" />-->
+            <ReplyForm v-show="showReplyForm" :post="post" :profile="$page.props.auth.user.profile" @success="showReplyForm = false"/>
         </div>
 
         <!-- Threaded replies could go here -->
@@ -84,6 +110,11 @@ import RepostButton from "./RepostButton.vue";
 import SaveButton from "./SaveButton.vue";
 import ShareButton from "./ShareButton.vue";
 import Reply from "./Reply.vue";
+import ReplyForm from "./ReplyForm.vue";
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+
+import { ref } from "vue";
+import { Link } from "@inertiajs/vue3";
 
 defineProps<{
     post: {
@@ -100,10 +131,13 @@ defineProps<{
         reposts_count: number;
         has_liked: boolean;
         has_reposted: boolean;
-        repostOf?: any;
+        repost_of?: any;
         replies?: any[];
     };
     showEngagements?: boolean;
     showReplies?: boolean;
 }>();
+
+
+let showReplyForm = ref(false);
 </script>

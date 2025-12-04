@@ -21,12 +21,12 @@ class ProfileWithRepliesQuery
 
     public function paginate(int $perPage = 20): LengthAwarePaginator
     {
-        return $this->baseQuery()->paginate($perPage)->through(fn (\App\Models\Post $post): \App\Models\Post => $this->normalize($post));
+        return $this->baseQuery()->paginate($perPage)->through(fn (Post $post): Post => $this->normalize($post));
     }
 
     public function get(): Collection
     {
-        return $this->baseQuery()->get()->map(fn (\App\Models\Post $post): \App\Models\Post => $this->normalize($post));
+        return $this->baseQuery()->get()->map(fn (Post $post): Post => $this->normalize($post));
     }
 
     private function baseQuery(): Builder

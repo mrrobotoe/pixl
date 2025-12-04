@@ -1,7 +1,8 @@
 <template>
     <Layout>
+        <!-- Content -->
         <main class="-mx-4 flex grow flex-col gap-4 overflow-y-auto px-4 py-4">
-            <div class="h-full">
+            <div class="">
                 <nav class="overflow-x-auto [scrollbar-width:none]">
                     <ul class="flex min-w-max justify-end gap-8 text-sm">
                         <li>
@@ -21,14 +22,9 @@
                 </nav>
             </div>
 
-            <!-- Post prompt -->
-            <PostForm :profile="profile" />
-
             <!-- Posts feed -->
             <ol class="mt-4">
-                <!-- Feed item -->
-                <Post v-for="item in posts" :key="item.id" :post="item" :show-engagements="true" />
-                <!-- More feed items -->
+                <Post :post="post" :show-replies="true" show-engagements/>
             </ol>
 
             <!-- Footer -->
@@ -38,18 +34,13 @@
                 <div class="h-20 bg-[url(/resources/images/white-noise.gif)]"></div>
             </footer>
         </main>
+
     </Layout>
 </template>
 <script setup>
 import Layout from "../Layouts/layout.vue";
-import PostForm from "../Components/PostForm.vue";
 import Post from "../Components/Post.vue";
 defineProps({
-    profile: {
-        avatar_url: String,
-        display_name: String,
-        handle: String,
-    },
-    posts: Array,
+    post: Object,
 })
 </script>

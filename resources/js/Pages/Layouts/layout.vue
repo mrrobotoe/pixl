@@ -3,10 +3,13 @@
         <Navigation/>
         <slot/>
         <Aside />
+
+        <FlashMessages />
     </div>
 </template>
 
 <script setup lang="ts">
 import Navigation from "../Components/Navigation.vue";
 import Aside from "../Components/Aside.vue";
+import FlashMessages from "../Components/FlashMessages.vue";
 </script>

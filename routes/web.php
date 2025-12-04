@@ -1,21 +1,23 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/home');
+Route::get('/', HomeController::class)->middleware('guest');
 
 if (app()->isLocal()) {
     Route::get('/dev/login', function () {
-        $user = User::find(20);
+        $user = User::first();
 
         Auth::login($user);
 
         request()->session()->regenerate();
 
         return redirect()->intended(route('profiles.show', $user->profile));
+
     })->name('login');
 
     Route::get('/dev/logout', function () {
@@ -24,9 +26,8 @@ if (app()->isLocal()) {
         request()->session()->invalidate();
         request()->session()->regenerate();
 
-        return redirect()->intended('/feed');
+        return redirect('/');
     })->name('logout');
-
 }
 
 Route::middleware(['auth'])->group(function (): void {
